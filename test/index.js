@@ -1,11 +1,10 @@
-'use strict';
+import document from 'global/document';
+/* global process */
+import React from 'react';
+import ReactDOM from 'react-dom';
+import test from 'tape-catch';
+import MapGL from '../src';
 
-var document = require('global/document');
-var test = require('prova');
-var MapGL = require('../src/index');
-var React = require('react');
-var r = require('r-dom');
-var process = require('global/process');
 /* eslint-disable no-process-env */
 // This will get converted to a string by envify
 var mapboxApiAccessToken = process.env.MapboxAccessToken;
@@ -15,15 +14,18 @@ var mapboxApiAccessToken = process.env.MapboxAccessToken;
 test('MapGL', function(t) {
   t.test('Exists', function(t) {
     t.ok(MapGL);
-    var map = r(MapGL, {
-      width: 500,
-      height: 500,
-      longitude: -122,
-      latitude: 37,
-      zoom: 14,
-      mapboxApiAccessToken: mapboxApiAccessToken
-    });
-    React.render(map, document.body);
+    const map = (
+      <MapGL
+        width={ 500 }
+        height={ 500 }
+        longitude={ -122 }
+        latitude={ 37 }
+        zoom={ 14 }
+        mapboxApiAccessToken={ mapboxApiAccessToken }/>
+    );
+    var reactContainer = document.createElement('div');
+    document.body.appendChild(reactContainer);
+    ReactDOM.render(map, reactContainer);
     t.ok(true);
     t.end();
   });
