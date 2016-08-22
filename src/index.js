@@ -20,7 +20,7 @@
 
 import MapGL from './map.react';
 import * as overlays from './overlays';
-import fitBounds from './fit-bounds';
+import fitBounds from './utils/fit-bounds';
 
 module.exports = MapGL;
 module.exports.fitBounds = fitBounds;
