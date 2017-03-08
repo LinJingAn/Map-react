@@ -2,7 +2,8 @@
   "description": "Main example for react-map-gl",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --progress --hot --port 3001 --open"
+    "start": "webpack-dev-server --progress --hot --open",
+    "start-local": "webpack-dev-server --env.local --progress --hot --open"
   },
   "dependencies": {
     "d3-array": "^1.0.1",

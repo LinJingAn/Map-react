@@ -23,6 +23,7 @@ module.exports = {
       'react-map-gl': resolve('../..'),
       // Ensure only one copy of react
       react: resolve('./node_modules/react'),
+      immutable: resolve('./node_modules/immutable'),
       // Per mapbox-gl-js README for non-browserify bundlers
       'mapbox-gl$': resolve('./node_modules/mapbox-gl/dist/mapbox-gl.js')
     }
@@ -58,3 +59,7 @@ module.exports = {
     new webpack.LoaderOptionsPlugin({minimize: false, debug: true})
   ]
 };
+
+// DELETE THIS LINE WHEN COPYING THIS EXAMPLE FOLDER OUTSIDE OF DECK.GL
+// It enables bundling against src in this repo rather than installed deck.gl module
+module.exports = require('../webpack.config.local')(module.exports);
