@@ -5,7 +5,7 @@
 const resolve = require('path').resolve;
 const webpack = require('webpack');
 
-module.exports = {
+const config = {
   entry: {
     app: resolve('./app.js')
   },
@@ -14,7 +14,7 @@ module.exports = {
 
   module: {
     rules: [{
-      // Compile ES2015 using buble
+      // Compile ES2015 using bable
       test: /\.js$/,
       loader: 'babel-loader',
       include: [resolve('.')],
@@ -31,10 +31,10 @@ module.exports = {
 
   // Optional: Enables reading mapbox token from environment variable
   plugins: [
-    new webpack.EnvironmentPlugin(['MAPBOX_ACCESS_TOKEN', 'MapboxAccessToken'])
+    new webpack.EnvironmentPlugin(['MapboxAccessToken'])
   ]
 };
 
-// DELETE THIS LINE WHEN COPYING THIS EXAMPLE FOLDER OUTSIDE OF DECK.GL
-// It enables bundling against src in this repo rather than the installed version
-module.exports = require('../webpack.config.local')(module.exports);
+// Enables bundling against src in this repo rather than the installed version
+module.exports = env => env && env.local ?
+  require('../webpack.config.local')(config)(env) : config;
