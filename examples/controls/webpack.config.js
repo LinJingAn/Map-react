@@ -1,63 +1,40 @@
-// NOTE: This is a Webpack 2 configuration file for react-map-gl
-const {resolve} = require('path');
+// NOTE: To use this example standalone (e.g. outside of deck.gl repo)
+// delete the local development overrides at the bottom of this file
+
+// avoid destructuring for older Node version support
+const resolve = require('path').resolve;
 const webpack = require('webpack');
 
-module.exports = {
-  // Example entry point
+const config = {
   entry: {
-    app: resolve('./app.js')
+    app: resolve('./src/app.js')
   },
 
-  // Silence excessive webpack dev server warnings
-  devServer: {
-    stats: {
-      warnings: false
-    }
-  },
+  devtool: 'source-map',
 
-  devtool: 'source-maps',
+  module: {
+    rules: [{
+      // Compile ES2015 using bable
+      test: /\.js$/,
+      loader: 'babel-loader',
+      include: [resolve('.')],
+      exclude: [/node_modules/]
+    }]
+  },
 
   resolve: {
     alias: {
-      // Work against the latest base library in this repo
-      'react-map-gl': resolve('../..'),
-      // Ensure only one copy of react
-      react: resolve('./node_modules/react'),
-      immutable: resolve('./node_modules/immutable'),
-      // Per mapbox-gl-js README for non-browserify bundlers
+      // From mapbox-gl-js README. Required for non-browserify bundlers (e.g. webpack):
       'mapbox-gl$': resolve('./node_modules/mapbox-gl/dist/mapbox-gl.js')
     }
   },
 
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader'
-      },
-      {
-        // Compile ES2015 and JSX using buble
-        test: /\.js$/,
-        loader: 'buble-loader',
-        exclude: [/node_modules/],
-        options: {
-          objectAssign: 'Object.assign',
-          transforms: {
-            dangerousForOf: true,
-            modules: false
-          }
-        }
-      }
-    ]
-  },
-
-  // Allow setting mapbox token using environment variables
+  // Optional: Enables reading mapbox token from environment variable
   plugins: [
-    new webpack.EnvironmentPlugin(['MAPBOX_ACCESS_TOKEN', 'MapboxAccessToken']),
-    new webpack.LoaderOptionsPlugin({minimize: false, debug: true})
+    new webpack.EnvironmentPlugin(['MapboxAccessToken'])
   ]
 };
 
-// DELETE THIS LINE WHEN COPYING THIS EXAMPLE FOLDER OUTSIDE OF DECK.GL
-// It enables bundling against src in this repo rather than the installed version
-module.exports = require('../webpack.config.local')(module.exports);
+// Enables bundling against src in this repo rather than the installed version
+module.exports = env => env && env.local ?
+  require('../webpack.config.local')(config)(env) : config;
