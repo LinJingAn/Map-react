@@ -21,22 +21,45 @@
 /* global document, window */
 import ReactDOM from 'react-dom';
 import React, {Component} from 'react';
+import MapGL from 'react-map-gl';
 
-import ChoroplethOverlayExample from './choropleth-overlay-example';
+import customOverlayExamples from './custom-overlay-examples';
+
+const token = process.env.MapboxAccessToken; // eslint-disable-line
+
+if (!token) {
+  throw new Error('Please specify a valid mapbox token');
+}
 
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {width: window.innerWidth, height: window.innerHeight};
-    window.addEventListener('resize',
-      () => this.setState({width: window.innerWidth, height: window.innerHeight}));
+    this.state = {
+      viewport: {
+        latitude: 37.785164,
+        longitude: -122.41669,
+        zoom: 8,
+        bearing: 0,
+        pitch: 0,
+        width: window.innerWidth,
+        height: window.innerHeight
+      }
+    };
   }
 
   render() {
-    const {width, height} = this.state;
-    const props = {width, height, style: {float: 'left'}};
+    const {viewport} = this.state;
+
     return (
-      <ChoroplethOverlayExample {...props}/>
+      <MapGL
+        {...viewport}
+        mapStyle="mapbox://styles/mapbox/dark-v9"
+        onViewportChange={v => this.setState({viewport: v})}
+        mapboxApiAccessToken={token} >
+
+        {customOverlayExamples}
+
+      </MapGL>
     );
   }
 }
