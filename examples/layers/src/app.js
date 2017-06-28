@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import MapGL from 'react-map-gl';
-import StyleControls from './style-controls';
+import ControlPanel from './control-panel';
 
 const token = process.env.MapboxAccessToken; // eslint-disable-line
 
@@ -20,8 +20,8 @@ export default class App extends Component {
       zoom: 15.5,
       bearing: 0,
       pitch: 0,
-      width: window.innerWidth,
-      height: window.innerHeight
+      width: 500,
+      height: 500
     }
   }
 
@@ -30,13 +30,16 @@ export default class App extends Component {
     this._resize();
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._resize);
+  }
+
   _resize = () => {
-    const {widthOffset, heightOffset} = this.props;
     this.setState({
       viewport: {
         ...this.state.viewport,
-        width: window.innerWidth - widthOffset,
-        height: window.innerHeight - heightOffset
+        width: this.props.width || window.innerWidth,
+        height: this.props.height || window.innerHeight
       }
     });
   };
@@ -55,16 +58,9 @@ export default class App extends Component {
         mapStyle={mapStyle}
         onViewportChange={this._onViewportChange}
         mapboxApiAccessToken={token} >
-        <StyleControls onChange={this._onStyleChange} />
+        <ControlPanel onChange={this._onStyleChange} />
       </MapGL>
     );
   }
 
 }
-
-// Used to render properly in docs. Ignore these props or remove if you're
-// copying this as a starting point.
-App.defaultProps = {
-  widthOffset: 0,
-  heightOffset: 0
-};
