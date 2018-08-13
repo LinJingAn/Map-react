@@ -61,7 +61,8 @@ export default class App extends Component {
 
   _renderCityMarker = (city, index) => {
     return (
-      <Marker key={`marker-${index}`}
+      <Marker 
+        key={`marker-${index}`}
         longitude={city.longitude}
         latitude={city.latitude} >
         <CityPin size={20} onClick={() => this.setState({popupInfo: city})} />
