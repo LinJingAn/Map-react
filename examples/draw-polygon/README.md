@@ -1,12 +1,12 @@
-<div align="center">
-  <img src="https://avatars3.githubusercontent.com/u/2105791?v=3&s=200" />
-</div>
+# Example: Draw Polygon
 
-## Example: Draw Polygon
+Demonstrates how to use [react-map-gl-draw](https://github.com/uber/nebula.gl/tree/master/modules/react-map-gl-draw) to draw polygons with react-map-gl.
 
-Demonstrates how to use [`react-map-gl-draw`](https://github.com/uber/nebula.gl/tree/master/modules/react-map-gl-draw) to draw polygons with react-map-gl.
+## Usage
 
-```
-    yarn 
-    yarn start-local
+To run this example, you need a [Mapbox token](http://visgl.github.io/react-map-gl/docs/get-started/mapbox-tokens). You can either set it as `MAPBOX_TOKEN` in `src/app.js`, or set a `MapboxAccessToken` environment variable in the command line.
+
+```bash
+npm i
+npm run start
 ```
